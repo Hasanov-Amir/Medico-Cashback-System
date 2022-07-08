@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+
+    <main>
+        <h2>Profile</h2>
+        <h3>Name:</h3>
+        <p>{{ profile.first_name }}</p>
+        <h3>Surname:</h3>
+        <p>{{ profile.last_name }}</p>
+        <h3>Email:</h3>
+        <p>{{ profile.email }}</p>
+        <h3>Phone Number:</h3>
+        <p>{{ profile.phone_number }}</p>
+    </main>
+
+    <a href="{% url 'edit_profile' %}">Edit Info</a>
+
+</body>
+</html>
