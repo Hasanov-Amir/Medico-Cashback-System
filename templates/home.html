@@ -6,8 +6,14 @@
 </head>
 <body>
     <h1>Home</h1>
-    <a href="{% url 'reg' %}">Sign Up</a><br>
-    <a href="{% url 'login' %}">Sign In</a><br>
-    <a href="{% url 'logout' %}">LogOut</a>
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}">LogOut</a><br>
+        <a href="{% url 'profile' %}">Profile</a><br>
+        <a href="{% url 'fiscal_add' %}">Fiscal Add</a><br>
+        <a href="{% url 'fiscal_history' %}">Fiscal History</a><br>
+    {% else %}
+        <a href="{% url 'reg' %}">Sign Up</a><br>
+        <a href="{% url 'login' %}">Sign In</a><br>
+    {% endif %}
 </body>
 </html>

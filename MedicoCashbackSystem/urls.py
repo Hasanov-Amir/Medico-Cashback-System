@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='home'),
     path('accounts/', include('account.urls')),
+    path('fiscal/', include('cashback.urls')),
     path('password_reset/', password_reset_request, name='password_reset'),
     path(
         'password_reset/done/',

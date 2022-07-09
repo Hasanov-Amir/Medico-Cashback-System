@@ -79,7 +79,7 @@ def user_profile(request):
 
 
 def edit_profile(request):
-    context = {}
+    data = {}
 
     user = auth.get_user(request)
     profile = User.objects.get(id=user.id)
@@ -95,8 +95,8 @@ def edit_profile(request):
                 send_email_for_verify(request, profile)
             return redirect("profile")
 
-    context["form"] = form
-    return render(request, "account/edit_profile.html", context)
+    data["form"] = form
+    return render(request, "account/edit_profile.html", data)
 
 
 def password_reset_request(request):
@@ -141,4 +141,6 @@ def logout_user(request):
 
 
 def page_not_found(request, exception):
-    return render(request, 'error404.html', {"tried": exception})
+    response = render(request, 'error404.html', {"tried": exception})
+    response.status_code = 404
+    return response

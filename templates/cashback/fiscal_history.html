@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+</head>
+<body>
+    <main>
+        <h2>History</h2>
+        {% for fiscal in history %}
+            <a href="{{ fiscal.get_absolute_url }}">{{ fiscal.fiscal }}</a>
+        {% endfor %}
+    </main>
+</body>
+</html>
