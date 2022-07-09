@@ -7,8 +7,14 @@ from account.models import User
 from cashback.forms import CheckForm
 from cashback.models import Check
 
+from decimal import Decimal
 import json
 import requests
+from datetime import datetime
+from dateutil import tz
+
+
+local_zone = tz.tzlocal()
 
 
 def check_info(info):
@@ -27,8 +33,14 @@ class CB_Add(LoginRequiredMixin, CreateView):
         check_data = check_info(page)
         check_sum = check_data['cheque']['content']['sum']
         form.instance.check_sum = check_sum
-        form.instance.cashback_value = check_sum*0.03
+        form.instance.cashback_value = round(check_sum*0.03, 2)
         form.instance.owner = self.request.user
+        utc = datetime.utcfromtimestamp(float(check_data['cheque']['content']['createdAtUtc']))
+        local = utc.astimezone(local_zone)
+        form.instance.receipt_date = local
+        user = User.objects.get(id=self.request.user.id)
+        user.pending += Decimal(round(check_sum*0.03, 2))
+        user.save()
         return super().form_valid(form)
 
 

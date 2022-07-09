@@ -12,6 +12,8 @@ class User(AbstractUser):
     phone_number = PhoneNumberField(verbose_name="Phone")
     email_verify = models.BooleanField(default=False, verbose_name="Account Verify")
     conditions = models.BooleanField(default=False, verbose_name="Privacy Policy")
+    balance = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="Balance")
+    pending = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="Pending")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]

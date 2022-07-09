@@ -8,7 +8,9 @@
     <main>
         <h2>History</h2>
         {% for fiscal in history %}
-            <a href="{{ fiscal.get_absolute_url }}">{{ fiscal.fiscal }}</a>
+            <ul>
+                <li><a href="{{ fiscal.get_absolute_url }}">{{ fiscal.fiscal }}</a></li>
+            </ul>
         {% endfor %}
     </main>
 </body>
