@@ -21,6 +21,19 @@ def check_info(info):
     return json.loads(info.content)
 
 
+def check_balance():
+    date = datetime.now().date()
+    check_date = Check.objects.filter(on_balance=False)
+    for i in check_date:
+        p_days = (date - i.time_added).days
+        if p_days >= 3:
+            i.on_balance = True
+            i.owner.pending -= i.cashback_value
+            i.owner.balance += i.cashback_value
+            i.owner.save()
+            i.save()
+
+
 class CB_Add(LoginRequiredMixin, CreateView):
     form_class = CheckForm
     template_name = 'cashback/fiscal_add.html'
@@ -46,6 +59,7 @@ class CB_Add(LoginRequiredMixin, CreateView):
 
 def show_fiscal(request, fiscal):
     check = get_object_or_404(Check, fiscal=fiscal)
+    check_balance()
     data = {
         'check': check
     }

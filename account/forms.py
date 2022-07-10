@@ -4,9 +4,11 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm as Dj
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from .models import Card
 from .utils import send_email_for_verify
 
 from phonenumber_field.formfields import PhoneNumberField
+
 
 User = get_user_model()
 
@@ -40,12 +42,30 @@ class RegisterUserForm(UserCreationForm):
     last_name = forms.CharField(label="Surname", widget=forms.TextInput(attrs={"placeholder": "Your Surname"}))
     email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"placeholder": "E-Mail"}))
     phone_number = PhoneNumberField(widget=forms.TextInput(attrs={'placeholder': _('Phone')}))
+    birth_day = forms.DateField(label="Birthday", widget=forms.DateInput(attrs={
+        "type": "date"
+    }))
+    address = forms.CharField(label="Address", widget=forms.TextInput(attrs={
+        "placeholder": "Address"
+    }))
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={"placeholder": "Password"}))
-    password2 = forms.CharField(label="Repeat Password", widget=forms.PasswordInput(attrs={"placeholder": "Repeat your password"}))
+    password2 = forms.CharField(label="Repeat Password", widget=forms.PasswordInput(attrs={
+        "placeholder": "Repeat your password"
+    }))
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'phone_number', 'password1', 'password2')
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+            'phone_number',
+            'birth_day',
+            'address',
+            'gender',
+            'password1',
+            'password2'
+        )
 
 
 class EditUserForm(forms.ModelForm):
@@ -53,12 +73,24 @@ class EditUserForm(forms.ModelForm):
     last_name = forms.CharField(label="Surname", widget=forms.TextInput(attrs={"placeholder": "Your Surname"}))
     email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"placeholder": "E-Mail"}))
     phone_number = PhoneNumberField(widget=forms.TextInput(attrs={'placeholder': _('Phone')}))
+    birth_day = forms.DateField(label="Birthday", widget=forms.DateInput(attrs={
+        "type": "date"
+    }))
+    address = forms.CharField(label="Address", widget=forms.TextInput(attrs={
+        "placeholder": "Address"
+    }))
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'phone_number')
+        fields = ('first_name', 'last_name', 'email', 'phone_number', 'birth_day', 'address', 'gender')
 
 
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label="Email", widget=forms.TextInput(attrs={"placeholder": "Email"}))
     password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={"placeholder": "Password"}))
+
+
+class CardForm(forms.ModelForm):
+    class Meta:
+        model = Card
+        fields = ('cc_name', 'cc_number')

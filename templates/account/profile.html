@@ -16,6 +16,15 @@
         <p>{{ profile.email }}</p>
         <h3>Phone Number:</h3>
         <p>{{ profile.phone_number }}</p>
+        <h3>Balance:</h3>
+        <p>{{ profile.balance }}</p>
+
+        <h2>Cards</h2>
+        <ul>
+            {% for card in cards %}
+                <li>{{ card.cc_name }} - {{ card.cc_number }}</li>
+            {% endfor %}
+        </ul>
     </main>
 
     <a href="{% url 'edit_profile' %}">Edit Info</a>

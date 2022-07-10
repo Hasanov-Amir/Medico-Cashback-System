@@ -71,9 +71,11 @@ class EmailVerify(View):
 
 @login_required(redirect_field_name='login')
 def user_profile(request):
-    user = auth.get_user(request)
+    user = User.objects.get(id=request.user.id)
+    cards = user.card_set.all()
     data = {
-        'profile': user
+        'profile': user,
+        'cards': cards
     }
     return render(request, "account/profile.html", data)
 
@@ -133,6 +135,12 @@ def password_reset_request(request):
             "password_reset_form": password_reset_form
         }
     )
+
+
+class AddCard(CreateView):
+    form_class = CardForm
+    template_name = 'card/add_card.html'
+    success_url = reverse_lazy('profile')
 
 
 def logout_user(request):
